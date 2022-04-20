@@ -42,18 +42,18 @@ def some_external_process():
 # --- GUI --------------------------------------------------------------------
 def splash_gui():
     layout = [
-        [sg.Image(filename='Images/logo_small.png', key='WATER', pad=(0,(30,0)))],
-        [sg.Text('', justification='center', text_color='#00a2e8', font=('Tahoma', 30), pad=((5, 5), (25, 5)))],
+        [sg.Image(filename='Images/logo_small.png', key='LOGO', pad=(0,(30,0)), background_color='#83A0A0')],
         [sg.Text('Welcome to Skynet Home', justification='center', size=(50, 1),
-                text_color='#5b5b5b', font=('Tahoma', 18), pad=((5, 5), (10, 25)), key='MSG')],
-        [sg.Text('0%', size=(5, 1), text_color='#5b5b5b', font=('Tahoma', 16), pad=((5, 5), (5, 12)), key='PCT')],
-        [sg.Image('', key='BOAT')],
+                text_color='#5b5b5b', font=('Tahoma', 18), pad=((5, 5), (10, 25)), key='MSG',
+                 background_color='#83A0A0')],
+        [sg.Text('0%', size=(5, 1), text_color='#5b5b5b', font=('Tahoma', 16), pad=((5, 5), (5, 12)),
+                 key='PCT', background_color='#83A0A0')],
         [sg.ProgressBar(max_value=100, orientation='h', border_width=1, size=(25, 25),
                         bar_color=('#00a2e8', '#FFFFFF'), key='PRG')]
         ]
 
     return sg.Window('splash', layout, no_titlebar=True, element_justification='center',
-        size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True)
+        size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True, background_color='#83A0A0')
 
 def gui_event_loop(window):
     global bar_count, active
@@ -64,7 +64,7 @@ def gui_event_loop(window):
         if bar_count%10 == 0:
             window['MSG'].update(value=change_message())
         if bar_count%4 == 0:
-            window['WATER'].update(filename=animate_water())
+            window['LOGO'].update(filename=animate_water())
 
     # window['PRG'].update(visible=False)
     # window['PCT'].update(visible=False)
