@@ -3,24 +3,40 @@ import PySimpleGUI as sg
 from threading import Thread
 from time import sleep
 
+'''
+Colour Definitions
+'''
+BG_STARTUP_SCREEN = '#83A0A0'
+TEXTC_STARTUP_SCREEN = '#5b5b5b'
+FUNCTION_ELEMENT_COLOUR = '#00a2e8'
+BLACK = '#000000'
+WHITE = '#FFFFFF'
+
+'''
+Text Definitions
+'''
+FONT_MAIN = 'Tahoma'
+
+
 images = ['Images/logo_small.png']
 img_iter = iter(images)
 
 messages = iter([
     'Powering UP',
     'Sending Information to local Machine Host',
-    'Security Protocols established',
-    'Perimeter Defense established',
-    'Bulletstorm Anti Personnel Equipment connected',
-    'Internal Life Signatures Registered'])
+    'Security Protocols Established',
+    'AP-Mines Activated'
+    'Sentinel Drones Dispatched',
+    'Perimeter Defense Established',
+    'User Signatures Registered'])
 
 def change_message():
     try:
         return next(messages)
     except StopIteration:
-        return 'Praise the Machine Overlords!'
+        return 'Praise to our Machine Overlords!'
 
-def animate_water():
+def animation():
     global img_iter, images
     try:
         return next(img_iter)
@@ -42,18 +58,19 @@ def some_external_process():
 # --- GUI --------------------------------------------------------------------
 def splash_gui():
     layout = [
-        [sg.Image(filename='Images/logo_small.png', key='LOGO', pad=(0,(30,0)), background_color='#83A0A0')],
+        [sg.Image(filename='Images/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
         [sg.Text('Welcome to Skynet Home', justification='center', size=(50, 1),
-                text_color='#5b5b5b', font=('Tahoma', 18), pad=((5, 5), (10, 25)), key='MSG',
-                 background_color='#83A0A0')],
-        [sg.Text('0%', size=(5, 1), text_color='#5b5b5b', font=('Tahoma', 16), pad=((5, 5), (5, 12)),
-                 key='PCT', background_color='#83A0A0')],
+                 text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 18), pad=((5, 5), (10, 25)), key='MSG',
+                 background_color=BG_STARTUP_SCREEN)],
+        [sg.Text('0%', size=(5, 1), text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 16), pad=((5, 5), (5, 12)),
+                 key='PCT', background_color=BG_STARTUP_SCREEN)],
         [sg.ProgressBar(max_value=100, orientation='h', border_width=1, size=(25, 25),
-                        bar_color=('#00a2e8', '#FFFFFF'), key='PRG')]
+                        bar_color=(FUNCTION_ELEMENT_COLOUR, WHITE), key='PRG')]
         ]
 
     return sg.Window('splash', layout, no_titlebar=True, element_justification='center',
-        size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True, background_color='#83A0A0')
+                     size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True,
+                     background_color=BG_STARTUP_SCREEN)
 
 def gui_event_loop(window):
     global bar_count, active
@@ -64,13 +81,8 @@ def gui_event_loop(window):
         if bar_count%10 == 0:
             window['MSG'].update(value=change_message())
         if bar_count%4 == 0:
-            window['LOGO'].update(filename=animate_water())
+            window['LOGO'].update(filename=animation())
 
-    # window['PRG'].update(visible=False)
-    # window['PCT'].update(visible=False)
-    # window['WATER'].update(visible=False)
-    # window['MSG'].update(font=('Tahoma', 12, 'bold'))
-    # window['BOAT'].update(filename='Images/logo_small.png')
     window.read(3000)
     window.close()
 
