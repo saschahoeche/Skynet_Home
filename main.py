@@ -36,14 +36,6 @@ def change_message():
     except StopIteration:
         return 'Praise to our Machine Overlords!'
 
-def animation():
-    global img_iter, images
-    try:
-        return next(img_iter)
-    except StopIteration:
-        img_iter = iter(images)
-        return next(img_iter)
-
 # --- SOME SIMULATED PROCESS -------------------------------------------------
 bar_count = 0
 active = True
@@ -80,8 +72,6 @@ def gui_event_loop(window):
         window['PCT'].update(value="{}%".format(bar_count))
         if bar_count%10 == 0:
             window['MSG'].update(value=change_message())
-        if bar_count%4 == 0:
-            window['LOGO'].update(filename=animation())
 
     window.read(3000)
     window.close()
