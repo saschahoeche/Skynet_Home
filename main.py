@@ -6,16 +6,17 @@ from time import sleep
 '''
 Colour Definitions
 '''
-BG_STARTUP_SCREEN = '#83A0A0'
+BG_STARTUP_SCREEN = '#FFFFFF'
 TEXTC_STARTUP_SCREEN = '#5b5b5b'
-FUNCTION_ELEMENT_COLOUR = '#00a2e8'
+FUNCTION_ELEMENT_COLOUR = '#3EB7F2'
+FUNCTION_ELEMENT_COLOUR_2 = '#E5F6FE'
 BLACK = '#000000'
 WHITE = '#FFFFFF'
 
 '''
 Text Definitions
 '''
-FONT_MAIN = 'Tahoma'
+FONT_MAIN = 'Calibri'
 
 
 images = ['Images/logo_small.png']
@@ -23,12 +24,14 @@ img_iter = iter(images)
 
 messages = iter([
     'Powering UP',
-    'Sending Information to local Machine Host',
+    'Sending Information to Skynet Host',
+    'Initiation permission granted',
     'Security Protocols Established',
-    'AP-Mines Activated'
+    'AP - Mines armed',
     'Sentinel Drones Dispatched',
     'Perimeter Defense Established',
-    'User Signatures Registered'])
+    'User Signatures Registered',
+    'FOF System active'])
 
 def change_message():
     try:
