@@ -53,7 +53,7 @@ def some_external_process():
 # --- GUI --------------------------------------------------------------------
 def splash_gui():
     layout = [
-        [sg.Image(filename='Images/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
+        [sg.Image(filename='images/logos/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
         [sg.Text('Welcome to Skynet Home', justification='center', size=(50, 1),
                  text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 18), pad=((5, 5), (10, 25)), key='MSG',
                  background_color=BG_STARTUP_SCREEN)],
@@ -71,7 +71,7 @@ def splash_gui():
 
 def home_menu():
     layout = [
-        [sg.Image(filename='Images/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
+        [sg.Image(filename='Images/logos/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
         [sg.Text('Testtext', justification='center', size=(50, 1),
                  text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 18), pad=((5, 5), (10, 25)), key='MSG',
                  background_color=BG_STARTUP_SCREEN)]
