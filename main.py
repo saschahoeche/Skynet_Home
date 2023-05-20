@@ -39,7 +39,7 @@ def change_message():
     except StopIteration:
         return 'Praise to our Machine Overlords!'
 
-# --- SOME SIMULATED PROCESS -------------------------------------------------
+# --- Simulated Counter -------------------------------------------------
 bar_count = 0
 active = True
 
@@ -67,7 +67,23 @@ def splash_gui():
                      size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True,
                      background_color=BG_STARTUP_SCREEN)
 
-def gui_event_loop(window):
+# --- Home Menu --------------------------------------------------------------------
+
+def home_menu():
+    layout = [
+        [sg.Image(filename='Images/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
+        [sg.Text('Testtext', justification='center', size=(50, 1),
+                 text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 18), pad=((5, 5), (10, 25)), key='MSG',
+                 background_color=BG_STARTUP_SCREEN)]
+        ]
+
+    return sg.Window('splash', layout, no_titlebar=True, element_justification='center',
+                     size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True,
+                     background_color=BG_STARTUP_SCREEN)
+
+# --- Event Managemetn --------------------------------------------------------------------
+
+def splash_screen_loop(window):
     global bar_count, active
     while active:
         window.read(100)
@@ -76,14 +92,22 @@ def gui_event_loop(window):
         if bar_count%10 == 0:
             window['MSG'].update(value=change_message())
 
-    window.read(3000)
+    window.read(2000)
     window.close()
+
+def main_gui_loop(home_screen):
+    home_screen.read(3000)
+    home_screen.close()
 
 def main():
     t1 = Thread(target=some_external_process)
     t1.start()
-    window = splash_gui()
-    gui_event_loop(window)
+    splash_screen = splash_gui()
+    splash_screen_loop(splash_screen)
+    home_screen = home_menu()
+    main_gui_loop(home_screen)
+
+
 
 if __name__=='__main__':
     main()
