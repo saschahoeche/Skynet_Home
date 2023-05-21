@@ -78,23 +78,26 @@ class MyRelativeLayout(Screen):
         self.create_buttons()
 
     def create_buttons(self):
-        # Create the buttons
-        button1 = Button(text='Steuerung', size_hint=(None, None), size=(300, 300),
+        # Create the center buttons
+        button_steuerung = Button(text='Steuerung', size_hint=(None, None), size=(300, 300),
                      pos_hint={'x': 0.025, 'y': 0.25}, font_size=36, color=(0, 0, 0, 1))
-        button2 = Button(text='Sicherheit', size_hint=(None, None), size=(300, 300),
+        button_sicherheit = Button(text='Sicherheit', size_hint=(None, None), size=(300, 300),
                      pos_hint={'x': 0.35, 'y': 0.25}, font_size=36, color=(0, 0, 0, 1))
-        button3 = Button(text='Gesundheit', size_hint=(None, None), size=(300, 300),
+        button_gesundheit = Button(text='Gesundheit', size_hint=(None, None), size=(300, 300),
                      pos_hint={'x': 0.675, 'y': 0.25}, font_size=36, color=(0, 0, 0, 1))
+        
+        # Create the navigation Buttons
+
 
         # Set the button images #TODO add button_down effect
-        button1.background_normal = 'images\gui\large_button.png'
-        button2.background_normal = 'images\gui\large_button.png'
-        button3.background_normal = 'images\gui\large_button.png'
+        button_steuerung.background_normal = 'images\gui\large_button.png'
+        button_sicherheit.background_normal = 'images\gui\large_button.png'
+        button_gesundheit.background_normal = 'images\gui\large_button.png'
 
         # Add the buttons to the screen
-        self.add_widget(button1)
-        self.add_widget(button2)
-        self.add_widget(button3)
+        self.add_widget(button_steuerung)
+        self.add_widget(button_sicherheit)
+        self.add_widget(button_gesundheit)
 
 
 class MyApp(App):
