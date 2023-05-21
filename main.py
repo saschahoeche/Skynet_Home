@@ -18,20 +18,22 @@ Text Definitions
 '''
 FONT_MAIN = 'Calibri'
 
+'''
+Element Definitions
+'''
 
-images = ['Images/logo_small.png']
-img_iter = iter(images)
 
+# --- Startup Screen -------------------------------------------------
 messages = iter([
     'Powering UP',
     'Sending Information to Skynet Host',
-    'Initiation permission granted',
-    'Security Protocols Established',
-    'AP - Mines armed',
+    'Initiation Permission Granted',
+    'Security Protocols Engaged',
+    'AP - Mines Armed',
     'Sentinel Drones Dispatched',
     'Perimeter Defense Established',
     'User Signatures Registered',
-    'FOF System active'])
+    'FOF System ACTIVE'])
 
 def change_message():
     try:
@@ -70,16 +72,33 @@ def splash_gui():
 # --- Home Menu --------------------------------------------------------------------
 
 def home_menu():
+    left_col_layout = [
+        [sg.Button('1')],
+        [sg.Button('4')],
+        [sg.Button('7')]
+    ]
+
+    middle_col_layout = [
+        [sg.Image(filename='images\logos\logo_tiny.png', background_color=WHITE)],
+        [sg.Button('5')],
+        [sg.Button('8')]
+    ]
+
+    right_col_layout = [
+        [sg.Image('images\symbols\\benutzer_small.png', background_color=WHITE), sg.Image('images\symbols\einstellungen_small.png', background_color=WHITE)],
+        [sg.Button('6')],
+        [sg.Button('9')]
+    ]
+
     layout = [
-        [sg.Image(filename='Images/logos/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
-        [sg.Text('Testtext', justification='center', size=(50, 1),
-                 text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 18), pad=((5, 5), (10, 25)), key='MSG',
-                 background_color=BG_STARTUP_SCREEN)]
+        [sg.Column(left_col_layout, element_justification='left', expand_x=True, background_color=WHITE),
+        sg.Column(middle_col_layout, element_justification='center', expand_x=True, background_color=WHITE),
+        sg.Column(right_col_layout, element_justification='right', expand_x=True, background_color=WHITE)],
         ]
 
-    return sg.Window('splash', layout, no_titlebar=True, element_justification='center',
+    return sg.Window('homescreen', layout, no_titlebar=True, element_justification='center',
                      size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True,
-                     background_color=BG_STARTUP_SCREEN)
+                     background_color=WHITE)
 
 # --- Event Managemetn --------------------------------------------------------------------
 
