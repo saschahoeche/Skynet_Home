@@ -1,132 +1,116 @@
-
-import PySimpleGUI as sg
-from threading import Thread
-from time import sleep
-
-'''
-Colour Definitions
-'''
-BG_STARTUP_SCREEN = '#FFFFFF'
-TEXTC_STARTUP_SCREEN = '#5b5b5b'
-FUNCTION_ELEMENT_COLOUR = '#3EB7F2'
-FUNCTION_ELEMENT_COLOUR_2 = '#E5F6FE'
-BLACK = '#000000'
-WHITE = '#FFFFFF'
-
-'''
-Text Definitions
-'''
-FONT_MAIN = 'Calibri'
-
-'''
-Element Definitions
-'''
+from kivy.config import Config
+from kivy.app import App
+from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.progressbar import ProgressBar
+from kivy.uix.label import Label
+from kivy.clock import Clock
+from kivy.uix.image import Image
+from kivy.graphics import Color, Rectangle
+from kivy.core.window import Window
+from kivy.uix.button import Button
 
 
-# --- Startup Screen -------------------------------------------------
-messages = iter([
-    'Powering UP',
-    'Sending Information to Skynet Host',
-    'Initiation Permission Granted',
-    'Security Protocols Engaged',
-    'AP - Mines Armed',
-    'Sentinel Drones Dispatched',
-    'Perimeter Defense Established',
-    'User Signatures Registered',
-    'FOF System ACTIVE'])
+class SplashScreen(Screen):
+    def __init__(self, **kwargs):
+        super(SplashScreen, self).__init__(**kwargs)
 
-def change_message():
-    try:
-        return next(messages)
-    except StopIteration:
-        return 'Praise to our Machine Overlords!'
+        # Set background color
+        with self.canvas.before:
+            Color('white')  # Set white color
+            self.rect = Rectangle(size=(1024, 600), pos=self.pos)
 
-# --- Simulated Counter -------------------------------------------------
-bar_count = 0
-active = True
+        # Add logo image
+        self.add_widget(Image(source='images\logos\logo_small.png', size_hint=(0.5, 0.5),
+                              pos_hint={'center_x': 0.5, 'center_y': 0.6},
+                              allow_stretch=True, keep_ratio=True))
 
-def some_external_process():
-    global bar_count, active
-    while bar_count < 100:
-        bar_count += 1
-        sleep(0.1)
-    active = False
+        # Add progress bar
+        self.progress_bar = ProgressBar(max=10, size_hint=(0.8, 0.1),
+                                        pos_hint={'center_x': 0.5, 'center_y': 0.25})
+        self.add_widget(self.progress_bar)
 
-# --- GUI --------------------------------------------------------------------
-def splash_gui():
-    layout = [
-        [sg.Image(filename='images/logos/logo_small.png', key='LOGO', pad=(0,(30,5)), background_color=BG_STARTUP_SCREEN)],
-        [sg.Text('Welcome to Skynet Home', justification='center', size=(50, 1),
-                 text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 18), pad=((5, 5), (10, 25)), key='MSG',
-                 background_color=BG_STARTUP_SCREEN)],
-        [sg.Text('0%', size=(5, 1), text_color=TEXTC_STARTUP_SCREEN, font=(FONT_MAIN, 16), pad=((5, 5), (5, 12)),
-                 key='PCT', background_color=BG_STARTUP_SCREEN)],
-        [sg.ProgressBar(max_value=100, orientation='h', border_width=1, size=(25, 25),
-                        bar_color=(FUNCTION_ELEMENT_COLOUR, WHITE), key='PRG')]
-        ]
+        # Add message label
+        self.message_label = Label(text='Powering UP', size_hint=(0.8, 0.1),
+                                   pos_hint={'center_x': 0.5, 'center_y': 0.15},
+                                   font_size=24, color='black')
+        self.add_widget(self.message_label)
 
-    return sg.Window('splash', layout, no_titlebar=True, element_justification='center',
-                     size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True,
-                     background_color=BG_STARTUP_SCREEN)
+        # Start the progress bar animation
+        Clock.schedule_interval(self.update_progress, 1)  # Update every second
 
-# --- Home Menu --------------------------------------------------------------------
+    def update_progress(self, dt):
+        progress = self.progress_bar.value + 1
+        self.progress_bar.value = progress
 
-def home_menu():
-    left_col_layout = [
-        [sg.Button('1')],
-        [sg.Button('4')],
-        [sg.Button('7')]
-    ]
+        if progress == 1:
+            self.message_label.text = 'Sending Information to Skynet Host'
+        elif progress == 3:
+            self.message_label.text = 'Initiation Permission Granted'
+        elif progress == 4:
+            self.message_label.text = 'Security Protocols Engaged'
+        elif progress == 5:
+            self.message_label.text = 'AP - Mines Armed'
+        elif progress == 6:
+            self.message_label.text = 'Sentinel Drones Dispatched'
+        elif progress == 7:
+            self.message_label.text = 'Perimeter Defense Established'
+        elif progress == 8:
+            self.message_label.text = 'User Signatures Registered'
+        elif progress == 9:
+            self.message_label.text = 'FOF System ACTIVE'
+        elif progress == 10:
+            self.message_label.text = 'Loading complete'
+            Clock.schedule_once(lambda dt: self.switch_to_main_app(), 1)
 
-    middle_col_layout = [
-        [sg.Image(filename='images\logos\logo_tiny.png', background_color=WHITE)],
-        [sg.Button('5')],
-        [sg.Button('8')]
-    ]
-
-    right_col_layout = [
-        [sg.Image('images\symbols\\benutzer_small.png', background_color=WHITE), sg.Image('images\symbols\einstellungen_small.png', background_color=WHITE)],
-        [sg.Button('6')],
-        [sg.Button('9')]
-    ]
-
-    layout = [
-        [sg.Column(left_col_layout, element_justification='left', expand_x=True, background_color=WHITE),
-        sg.Column(middle_col_layout, element_justification='center', expand_x=True, background_color=WHITE),
-        sg.Column(right_col_layout, element_justification='right', expand_x=True, background_color=WHITE)],
-        ]
-
-    return sg.Window('homescreen', layout, no_titlebar=True, element_justification='center',
-                     size=(1024, 600), margins=(0, 0), alpha_channel=1, grab_anywhere=True, keep_on_top=True,
-                     background_color=WHITE)
-
-# --- Event Managemetn --------------------------------------------------------------------
-
-def splash_screen_loop(window):
-    global bar_count, active
-    while active:
-        window.read(100)
-        window['PRG'].update_bar(current_count=bar_count)
-        window['PCT'].update(value="{}%".format(bar_count))
-        if bar_count%10 == 0:
-            window['MSG'].update(value=change_message())
-
-    window.read(2000)
-    window.close()
-
-def main_gui_loop(home_screen):
-    home_screen.read(3000)
-    home_screen.close()
-
-def main():
-    t1 = Thread(target=some_external_process)
-    t1.start()
-    splash_screen = splash_gui()
-    splash_screen_loop(splash_screen)
-    home_screen = home_menu()
-    main_gui_loop(home_screen)
+    def switch_to_main_app(self):
+        app = App.get_running_app()
+        app.root.current = 'main'
 
 
+class MyRelativeLayout(Screen):
+    def __init__(self, **kwargs):
+        super(MyRelativeLayout, self).__init__(**kwargs)
 
-if __name__=='__main__':
-    main()
+        # Set background image
+        self.add_widget(Image(source='images\gui\\backgroud_base.png', allow_stretch=True, keep_ratio=False))
+
+        # Create the three buttons
+        self.create_buttons()
+
+    def create_buttons(self):
+        # Create the buttons
+        button1 = Button(text='Steuerung', size_hint=(None, None), size=(300, 300),
+                     pos_hint={'x': 0.025, 'y': 0.25}, font_size=36, color=(0, 0, 0, 1))
+        button2 = Button(text='Sicherheit', size_hint=(None, None), size=(300, 300),
+                     pos_hint={'x': 0.35, 'y': 0.25}, font_size=36, color=(0, 0, 0, 1))
+        button3 = Button(text='Gesundheit', size_hint=(None, None), size=(300, 300),
+                     pos_hint={'x': 0.675, 'y': 0.25}, font_size=36, color=(0, 0, 0, 1))
+
+        # Set the button images #TODO add button_down effect
+        button1.background_normal = 'images\gui\large_button.png'
+        button2.background_normal = 'images\gui\large_button.png'
+        button3.background_normal = 'images\gui\large_button.png'
+
+        # Add the buttons to the screen
+        self.add_widget(button1)
+        self.add_widget(button2)
+        self.add_widget(button3)
+
+
+class MyApp(App):
+    def build(self):
+        screen_manager = ScreenManager()
+
+        # Add the splash screen
+        splash_screen = SplashScreen(name='splash')
+        screen_manager.add_widget(splash_screen)
+
+        # Add the main screen
+        main_screen = MyRelativeLayout(name='main')
+        screen_manager.add_widget(main_screen)
+
+        return screen_manager
+
+
+if __name__ == '__main__':
+    MyApp().run()
