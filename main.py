@@ -15,12 +15,12 @@ class SplashScreen(Screen):
         super(SplashScreen, self).__init__(**kwargs)
 
         # Set background color
-        with self.canvas.before:
+        with self.canvas.before:    
             Color('white')  # Set white color
             self.rect = Rectangle(size=(1024, 600), pos=self.pos)
 
         # Add logo image
-        self.add_widget(Image(source='images\logos\logo_small.png', size_hint=(0.5, 0.5),
+        self.add_widget(Image(source='Images/logos/logo_small.png', size_hint=(0.5, 0.5),
                               pos_hint={'center_x': 0.5, 'center_y': 0.6},
                               allow_stretch=True, keep_ratio=True))
 
@@ -72,7 +72,7 @@ class MyRelativeLayout(Screen):
         super(MyRelativeLayout, self).__init__(**kwargs)
 
         # Set background image
-        self.add_widget(Image(source='images\gui\\backgroud_base.png', allow_stretch=True, keep_ratio=False))
+        self.add_widget(Image(source='Images/gui/backgroud_base.png', allow_stretch=True, keep_ratio=False))
 
         # Create the three buttons
         self.create_buttons()
@@ -87,22 +87,28 @@ class MyRelativeLayout(Screen):
                      pos_hint={'x': 0.675, 'y': 0.25}, font_size=36, color=(0, 0, 0, 1))
         
         # Create the navigation Buttons
+        button_profil = Button(text='', size_hint=(None, None), size=(50, 50),
+                     pos_hint={'x': 0.93, 'y': 0.88})
 
 
         # Set the button images #TODO add button_down effect
-        button_steuerung.background_normal = 'images\gui\large_button.png'
-        button_sicherheit.background_normal = 'images\gui\large_button.png'
-        button_gesundheit.background_normal = 'images\gui\large_button.png'
+        button_steuerung.background_normal = 'Images/gui/large_button.png'
+        button_sicherheit.background_normal = 'Images/gui/large_button.png'
+        button_gesundheit.background_normal = 'Images/gui/large_button.png'
+        button_profil.background_disabled_normal = 'Images/symbols/benutzer_small.png'
 
         # Add the buttons to the screen
         self.add_widget(button_steuerung)
         self.add_widget(button_sicherheit)
         self.add_widget(button_gesundheit)
+        self.add_widget(button_profil)
 
 
 class MyApp(App):
     def build(self):
         screen_manager = ScreenManager()
+        Window.size = (1024, 600)
+        Window.borderless = True
 
         # Add the splash screen
         splash_screen = SplashScreen(name='splash')
