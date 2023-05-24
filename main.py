@@ -89,19 +89,24 @@ class MyRelativeLayout(Screen):
         # Create the navigation Buttons
         button_profil = Button(text='', size_hint=(None, None), size=(50, 50),
                      pos_hint={'x': 0.93, 'y': 0.88})
+        button_settings = Button(text='', size_hint=(None, None), size=(50, 50),
+                     pos_hint={'x': 0.87, 'y': 0.88})
 
 
         # Set the button images #TODO add button_down effect
         button_steuerung.background_normal = 'Images/gui/large_button.png'
         button_sicherheit.background_normal = 'Images/gui/large_button.png'
         button_gesundheit.background_normal = 'Images/gui/large_button.png'
-        button_profil.background_disabled_normal = 'Images/symbols/benutzer_small.png'
+        button_profil.background_normal = 'Images/symbols/benutzer_tiny.png'
+        button_settings.background_normal = 'Images/symbols/einstellungen_tiny.png'
+
 
         # Add the buttons to the screen
         self.add_widget(button_steuerung)
         self.add_widget(button_sicherheit)
         self.add_widget(button_gesundheit)
         self.add_widget(button_profil)
+        self.add_widget(button_settings)
 
 
 class MyApp(App):
@@ -109,7 +114,7 @@ class MyApp(App):
         screen_manager = ScreenManager()
         Window.size = (1024, 600)
         Window.borderless = True
-        Window.fullscreen = True
+        # Window.fullscreen = True
 
         # Add the splash screen
         splash_screen = SplashScreen(name='splash')
