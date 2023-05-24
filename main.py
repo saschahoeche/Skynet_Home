@@ -109,6 +109,7 @@ class MyApp(App):
         screen_manager = ScreenManager()
         Window.size = (1024, 600)
         Window.borderless = True
+        Window.fullscreen = True
 
         # Add the splash screen
         splash_screen = SplashScreen(name='splash')
