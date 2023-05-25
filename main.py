@@ -95,10 +95,15 @@ class MyRelativeLayout(Screen):
 
         # Set the button images #TODO add button_down effect
         button_steuerung.background_normal = 'Images/gui/large_button.png'
+        button_steuerung.background_down = 'Images/gui/large_button_pressed.png'
         button_sicherheit.background_normal = 'Images/gui/large_button.png'
+        button_sicherheit.background_down = 'Images/gui/large_button_pressed.png'
         button_gesundheit.background_normal = 'Images/gui/large_button.png'
+        button_gesundheit.background_down = 'Images/gui/large_button_pressed.png'
         button_profil.background_normal = 'Images/symbols/benutzer_tiny.png'
+        button_profil.background_down = 'Images/symbols/benutzer_tiny_pressed.png'
         button_settings.background_normal = 'Images/symbols/einstellungen_tiny.png'
+        button_settings.background_down = 'Images/symbols/einstellungen_tiny_pressed.png'
 
 
         # Add the buttons to the screen
