@@ -67,9 +67,9 @@ class SplashScreen(Screen):
         app.root.current = 'main'
 
 
-class MyRelativeLayout(Screen):
+class HomeScreen(Screen):
     def __init__(self, **kwargs):
-        super(MyRelativeLayout, self).__init__(**kwargs)
+        super(HomeScreen, self).__init__(**kwargs)
 
         # Set background image
         self.add_widget(Image(source='Images/gui/backgroud_base.png', allow_stretch=True, keep_ratio=False))
@@ -93,7 +93,7 @@ class MyRelativeLayout(Screen):
                      pos_hint={'x': 0.87, 'y': 0.88})
 
 
-        # Set the button images #TODO add button_down effect
+        # Set the button images
         button_steuerung.background_normal = 'Images/gui/large_button.png'
         button_steuerung.background_down = 'Images/gui/large_button_pressed.png'
         button_sicherheit.background_normal = 'Images/gui/large_button.png'
@@ -114,6 +114,15 @@ class MyRelativeLayout(Screen):
         self.add_widget(button_settings)
 
 
+class SettingsScreen(Screen):
+    def __init__(self, **kwargs):
+        super(SettingsScreen, self).__init__(**kwargs)
+
+        # Set background image
+        self.add_widget(Image(source='Images/gui/backgroud_base.png', allow_stretch=True, keep_ratio=False))
+
+         
+
 class MyApp(App):
     def build(self):
         screen_manager = ScreenManager()
@@ -126,7 +135,7 @@ class MyApp(App):
         screen_manager.add_widget(splash_screen)
 
         # Add the main screen
-        main_screen = MyRelativeLayout(name='main')
+        main_screen = HomeScreen(name='main')
         screen_manager.add_widget(main_screen)
 
         return screen_manager
