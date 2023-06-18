@@ -162,10 +162,15 @@ class HomeScreen(Screen):
 
         # Event handler for settings button
         button_settings.bind(on_release=self.open_settings_screen)
+        button_steuerung.bind(on_release=self.open_control_screen)
 
     def open_settings_screen(self, instance):
         app = App.get_running_app()
         app.root.current = "settings"
+
+    def open_control_screen(self, instance):
+        app = App.get_running_app()
+        app.root.current = "control"
 
 
 class SettingsScreen(Screen):
@@ -302,26 +307,53 @@ class SettingsScreen(Screen):
         app.root.current = "main"
 
 
-class MyApp(App):
-    def build(self):
-        screen_manager = ScreenManager()
-        Window.size = (1024, 600)
-        Window.borderless = True
-        # Window.fullscreen = True
+class ControlScreen(Screen):
+    def __init__(self, **kwargs):
+        super(ControlScreen, self).__init__(**kwargs)
 
-        # Add the splash screen
-        splash_screen = SplashScreen(name="splash")
-        screen_manager.add_widget(splash_screen)
+        # Set background image
+        self.add_widget(
+            Image(
+                source="Images/gui/backgroud_base.png",
+                allow_stretch=True,
+                keep_ratio=False,
+            )
+        )
 
-        # Add the main screen
-        main_screen = HomeScreen(name="main")
-        screen_manager.add_widget(main_screen)
+        self.create_labels()
+        self.create_buttons()
 
-        # Add the settings screen
-        settings_screen = SettingsScreen(name="settings")
-        screen_manager.add_widget(settings_screen)
+    def create_labels(self):
+        control_label = Label(
+            text="Steuerung",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.1, "y": 0.9},
+            font_size=36,
+            color=(0, 0, 0, 1),
+        )
 
-        return screen_manager
+        self.add_widget(control_label)
+
+    def create_buttons(self):
+        # Create Buttons
+        button_home = Button(
+            text="",
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint={"x": 0.93, "y": 0.88},
+        )
+
+        self.add_widget(button_home)
+
+        button_home.bind(on_release=self.open_main_screen)
+
+        button_home.background_normal = "images/symbols/heim_tiny.png"
+        button_home.background_down = "images/symbols/heim_tiny_pressed.png"
+
+    def open_main_screen(self, instance):
+        app = App.get_running_app()
+        app.root.current = "main"
 
 
 def update_brightness(instance, value):
@@ -344,6 +376,32 @@ def toggle_switch(instance, value):
         # Switch turned on
         instance.text = "ON"
         print("Switch is ON")
+
+
+class MyApp(App):
+    def build(self):
+        screen_manager = ScreenManager()
+        Window.size = (1024, 600)
+        Window.borderless = True
+        # Window.fullscreen = True
+
+        # Add the splash screen
+        splash_screen = SplashScreen(name="splash")
+        screen_manager.add_widget(splash_screen)
+
+        # Add the main screen
+        main_screen = HomeScreen(name="main")
+        screen_manager.add_widget(main_screen)
+
+        # Add the settings screen
+        settings_screen = SettingsScreen(name="settings")
+        screen_manager.add_widget(settings_screen)
+
+        # Add the control Screen
+        control_screen = ControlScreen(name="control")
+        screen_manager.add_widget(control_screen)
+
+        return screen_manager
 
 
 if __name__ == "__main__":
