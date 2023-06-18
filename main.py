@@ -18,12 +18,10 @@ class SplashScreen(Screen):
     def __init__(self, **kwargs):
         super(SplashScreen, self).__init__(**kwargs)
 
-        # Set background color
         with self.canvas.before:
-            Color("white")  # Set white color
+            Color("white")
             self.rect = Rectangle(size=(1024, 600), pos=self.pos)
 
-        # Add logo image
         self.add_widget(
             Image(
                 source="Images/logos/logo_small.png",
@@ -34,13 +32,11 @@ class SplashScreen(Screen):
             )
         )
 
-        # Add progress bar
         self.progress_bar = ProgressBar(
             max=10, size_hint=(0.8, 0.1), pos_hint={"center_x": 0.5, "center_y": 0.25}
         )
         self.add_widget(self.progress_bar)
 
-        # Add message label
         self.message_label = Label(
             text="Powering UP",
             size_hint=(0.8, 0.1),
@@ -50,8 +46,7 @@ class SplashScreen(Screen):
         )
         self.add_widget(self.message_label)
 
-        # Start the progress bar animation
-        Clock.schedule_interval(self.update_progress, 1)  # Update every second
+        Clock.schedule_interval(self.update_progress, 1)
 
     def update_progress(self, dt):
         progress = self.progress_bar.value + 1
@@ -86,7 +81,6 @@ class HomeScreen(Screen):
     def __init__(self, **kwargs):
         super(HomeScreen, self).__init__(**kwargs)
 
-        # Set background image
         self.add_widget(
             Image(
                 source="Images/gui/backgroud_base.png",
@@ -95,11 +89,10 @@ class HomeScreen(Screen):
             )
         )
 
-        # Create the three buttons
         self.create_buttons()
 
     def create_buttons(self):
-        # Create the center buttons
+
         button_steuerung = Button(
             text="Steuerung",
             size_hint=(None, None),
@@ -125,7 +118,6 @@ class HomeScreen(Screen):
             color=(0, 0, 0, 1),
         )
 
-        # Create the navigation Buttons
         button_profil = Button(
             text="",
             size_hint=(None, None),
@@ -139,7 +131,6 @@ class HomeScreen(Screen):
             pos_hint={"x": 0.87, "y": 0.88},
         )
 
-        # Set the button images
         button_steuerung.background_normal = "Images/gui/large_button.png"
         button_steuerung.background_down = "Images/gui/large_button_pressed.png"
         button_sicherheit.background_normal = "Images/gui/large_button.png"
@@ -153,14 +144,12 @@ class HomeScreen(Screen):
             "Images/symbols/einstellungen_tiny_pressed.png"
         )
 
-        # Add the buttons to the screen
         self.add_widget(button_steuerung)
         self.add_widget(button_sicherheit)
         self.add_widget(button_gesundheit)
         self.add_widget(button_profil)
         self.add_widget(button_settings)
 
-        # Event handler for settings button
         button_settings.bind(on_release=self.open_settings_screen)
         button_steuerung.bind(on_release=self.open_control_screen)
 
@@ -177,7 +166,6 @@ class SettingsScreen(Screen):
     def __init__(self, **kwargs):
         super(SettingsScreen, self).__init__(**kwargs)
 
-        # Set background image
         self.add_widget(
             Image(
                 source="Images/gui/backgroud_base.png",
@@ -243,7 +231,7 @@ class SettingsScreen(Screen):
         self.add_widget(wlan_label)
 
     def create_buttons(self):
-        # Create Buttons
+
         button_home = Button(
             text="",
             size_hint=(None, None),
@@ -257,7 +245,6 @@ class SettingsScreen(Screen):
             pos_hint={"x": 0.32, "y": 0.27},
         )
 
-        # Set button images
         button_home.background_normal = "images/symbols/heim_tiny.png"
         button_home.background_down = "images/symbols/heim_tiny_pressed.png"
         button_wlan_settings.background_normal = "images/symbols/einstellungen_tiny.png"
@@ -265,11 +252,9 @@ class SettingsScreen(Screen):
             "images/symbols/einstellungen_tiny_pressed.png"
         )
 
-        # Add the buttons to the screen
         self.add_widget(button_home)
         self.add_widget(button_wlan_settings)
 
-        # Buttons Event Handler
         button_home.bind(on_release=self.open_main_screen)
 
     def create_elements(self):
@@ -311,7 +296,6 @@ class ControlScreen(Screen):
     def __init__(self, **kwargs):
         super(ControlScreen, self).__init__(**kwargs)
 
-        # Set background image
         self.add_widget(
             Image(
                 source="Images/gui/backgroud_base.png",
@@ -336,7 +320,7 @@ class ControlScreen(Screen):
         self.add_widget(control_label)
 
     def create_buttons(self):
-        # Create Buttons
+
         button_home = Button(
             text="",
             size_hint=(None, None),
@@ -361,7 +345,7 @@ def update_brightness(instance, value):
 
 
 def set_screen_brightness(brightness):
-    brightness = max(0, min(brightness, 255))  # Ensure brightness is within valid range
+    brightness = max(0, min(brightness, 255))
     os.system(
         f"sudo sh -c 'echo {brightness} > /sys/class/backlight/rpi_backlight/brightness'"
     )
@@ -369,11 +353,11 @@ def set_screen_brightness(brightness):
 
 def toggle_switch(instance, value):
     if value == "normal":
-        # Switch turned off
+
         instance.text = "OFF"
         print("Switch is OFF")
     else:
-        # Switch turned on
+
         instance.text = "ON"
         print("Switch is ON")
 
@@ -383,21 +367,16 @@ class MyApp(App):
         screen_manager = ScreenManager()
         Window.size = (1024, 600)
         Window.borderless = True
-        # Window.fullscreen = True
 
-        # Add the splash screen
         splash_screen = SplashScreen(name="splash")
         screen_manager.add_widget(splash_screen)
 
-        # Add the main screen
         main_screen = HomeScreen(name="main")
         screen_manager.add_widget(main_screen)
 
-        # Add the settings screen
         settings_screen = SettingsScreen(name="settings")
         screen_manager.add_widget(settings_screen)
 
-        # Add the control Screen
         control_screen = ControlScreen(name="control")
         screen_manager.add_widget(control_screen)
 
