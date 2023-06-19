@@ -10,6 +10,8 @@ from kivy.core.window import Window
 from kivy.uix.button import Button
 from kivy.uix.slider import Slider
 from kivy.uix.togglebutton import ToggleButton
+from kivy.uix.popup import Popup
+from kivy.uix.boxlayout import BoxLayout
 
 import os
 
@@ -92,7 +94,6 @@ class HomeScreen(Screen):
         self.create_buttons()
 
     def create_buttons(self):
-
         button_steuerung = Button(
             text="Steuerung",
             size_hint=(None, None),
@@ -231,7 +232,6 @@ class SettingsScreen(Screen):
         self.add_widget(wlan_label)
 
     def create_buttons(self):
-
         button_home = Button(
             text="",
             size_hint=(None, None),
@@ -316,21 +316,83 @@ class ControlScreen(Screen):
             font_size=36,
             color=(0, 0, 0, 1),
         )
+        definition_label = Label(
+            text="Bezeichnung",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.15, "y": 0.75},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+        status_label = Label(
+            text="Status",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.6, "y": 0.75},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
 
         self.add_widget(control_label)
+        self.add_widget(definition_label)
+        self.add_widget(status_label)
 
     def create_buttons(self):
-
         button_home = Button(
             text="",
             size_hint=(None, None),
             size=(50, 50),
             pos_hint={"x": 0.93, "y": 0.88},
         )
+        button_add = Button(
+            text="Sensor Hinzufügen",
+            size_hint=(None, None),
+            size=(250, 50),
+            pos_hint={"x": 0.375, "y": 0.20},
+            font_size=24,
+        )
+        sensor1_button = Button(
+            text="Sensor 1",
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint={"x": 0.12, "y": 0.60},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+        sensor2_button = Button(
+            text="Sensor 2",
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint={"x": 0.12, "y": 0.50},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+        sensor1_status_button = Button(
+            text="Online",
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint={"x": 0.6, "y": 0.60},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+        sensor2_status_button = Button(
+            text="Batterie Schwach",
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint={"x": 0.6, "y": 0.50},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
 
         self.add_widget(button_home)
+        self.add_widget(button_add)
+        self.add_widget(sensor1_button)
+        self.add_widget(sensor2_button)
+        self.add_widget(sensor1_status_button)
+        self.add_widget(sensor2_status_button)
 
         button_home.bind(on_release=self.open_main_screen)
+        sensor1_button.bind(on_press=self.show_popup_sensor1)
 
         button_home.background_normal = "images/symbols/heim_tiny.png"
         button_home.background_down = "images/symbols/heim_tiny_pressed.png"
@@ -338,6 +400,19 @@ class ControlScreen(Screen):
     def open_main_screen(self, instance):
         app = App.get_running_app()
         app.root.current = "main"
+
+    def show_popup_sensor1(self, instance):
+        content = BoxLayout(orientation="vertical")
+        label = Label(text="This is Sensor 1 \n UID:oi2nf8024fohf890", font_size=24)
+        content.add_widget(label)
+
+        popup = Popup(
+            title="Information",
+            content=content,
+            size_hint=(None, None),
+            size=(400, 400),
+        )
+        popup.open()
 
 
 def update_brightness(instance, value):
@@ -353,11 +428,9 @@ def set_screen_brightness(brightness):
 
 def toggle_switch(instance, value):
     if value == "normal":
-
         instance.text = "OFF"
         print("Switch is OFF")
     else:
-
         instance.text = "ON"
         print("Switch is ON")
 
