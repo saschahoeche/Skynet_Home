@@ -344,44 +344,46 @@ class ControlScreen(Screen):
             size=(50, 50),
             pos_hint={"x": 0.93, "y": 0.88},
         )
+
         button_add = Button(
             text="Sensor Hinzufügen",
             size_hint=(None, None),
             size=(250, 50),
             pos_hint={"x": 0.375, "y": 0.20},
             font_size=24,
+            color=(255, 255, 255, 1),
         )
         sensor1_button = Button(
             text="Sensor 1",
             size_hint=(None, None),
-            size=(50, 50),
-            pos_hint={"x": 0.12, "y": 0.60},
+            size=(400, 50),
+            pos_hint={"x": 0.08, "y": 0.60},
             font_size=32,
-            color=(0, 0, 0, 1),
+            color=(255, 255, 255, 1),
         )
         sensor2_button = Button(
             text="Sensor 2",
             size_hint=(None, None),
-            size=(50, 50),
-            pos_hint={"x": 0.12, "y": 0.50},
+            size=(400, 50),
+            pos_hint={"x": 0.08, "y": 0.50},
             font_size=32,
-            color=(0, 0, 0, 1),
+            color=(255, 255, 255, 1),
         )
         sensor1_status_button = Button(
             text="Online",
             size_hint=(None, None),
-            size=(50, 50),
+            size=(275, 50),
             pos_hint={"x": 0.6, "y": 0.60},
             font_size=32,
-            color=(0, 0, 0, 1),
+            color=(255, 255, 255, 1),
         )
         sensor2_status_button = Button(
             text="Batterie Schwach",
             size_hint=(None, None),
-            size=(50, 50),
+            size=(275, 50),
             pos_hint={"x": 0.6, "y": 0.50},
             font_size=32,
-            color=(0, 0, 0, 1),
+            color=(255, 255, 255, 1),
         )
 
         self.add_widget(button_home)
@@ -393,7 +395,18 @@ class ControlScreen(Screen):
 
         button_home.bind(on_release=self.open_main_screen)
         sensor1_button.bind(on_press=self.show_popup_sensor1)
+        sensor2_button.bind(on_press=self.show_popup_sensor1)
 
+        sensor1_button.background_normal = "images/gui/large_text_entry.png"
+        sensor1_button.background_down = "images/gui/large_text_entry_pressed.png"
+        sensor2_button.background_normal = "images/gui/large_text_entry.png"
+        sensor2_button.background_down = "images/gui/large_text_entry_pressed.png"
+        sensor1_status_button.background_normal = "images/gui/small_text_entry.png"
+        sensor1_status_button.background_down = "images/gui/small_text_entry_pressed.png"
+        sensor2_status_button.background_normal = "images/gui/small_text_entry.png"
+        sensor2_status_button.background_down = "images/gui/small_text_entry_pressed.png"
+        button_add.background_normal = "images/gui/small_text_entry.png"
+        button_add.background_down = "images/gui/small_text_entry_pressed.png"
         button_home.background_normal = "images/symbols/heim_tiny.png"
         button_home.background_down = "images/symbols/heim_tiny_pressed.png"
 
@@ -403,7 +416,7 @@ class ControlScreen(Screen):
 
     def show_popup_sensor1(self, instance):
         content = BoxLayout(orientation="vertical")
-        label = Label(text="This is Sensor 1 \n UID:oi2nf8024fohf890", font_size=24)
+        label = Label(text="This is Sensor n \n UID:ui2nf8024fahf890", font_size=24)
         content.add_widget(label)
 
         popup = Popup(
