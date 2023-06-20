@@ -12,6 +12,7 @@ from kivy.uix.slider import Slider
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.popup import Popup
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.textinput import TextInput
 
 import os
 
@@ -153,6 +154,9 @@ class HomeScreen(Screen):
 
         button_settings.bind(on_release=self.open_settings_screen)
         button_steuerung.bind(on_release=self.open_control_screen)
+        button_profil.bind(on_release=self.open_profile_screen)
+        button_sicherheit.bind(on_release=self.show_popup_notimplemented)
+        button_gesundheit.bind(on_release=self.show_popup_notimplemented)
 
     def open_settings_screen(self, instance):
         app = App.get_running_app()
@@ -161,6 +165,23 @@ class HomeScreen(Screen):
     def open_control_screen(self, instance):
         app = App.get_running_app()
         app.root.current = "control"
+
+    def open_profile_screen(self, instance):
+        app = App.get_running_app()
+        app.root.current = "profile"
+
+    def show_popup_notimplemented(self, instance):
+        content = BoxLayout(orientation="vertical")
+        label = Label(text="This Feature is not yet implemented", font_size=24)
+        content.add_widget(label)
+
+        popup = Popup(
+            title="Information",
+            content=content,
+            size_hint=(None, None),
+            size=(400, 400),
+        )
+        popup.open()
 
 
 class SettingsScreen(Screen):
@@ -373,7 +394,7 @@ class ControlScreen(Screen):
             text="Online",
             size_hint=(None, None),
             size=(275, 50),
-            pos_hint={"x": 0.6, "y": 0.60},
+            pos_hint={"x": 0.575, "y": 0.60},
             font_size=32,
             color=(255, 255, 255, 1),
         )
@@ -381,7 +402,7 @@ class ControlScreen(Screen):
             text="Batterie Schwach",
             size_hint=(None, None),
             size=(275, 50),
-            pos_hint={"x": 0.6, "y": 0.50},
+            pos_hint={"x": 0.575, "y": 0.50},
             font_size=32,
             color=(255, 255, 255, 1),
         )
@@ -396,17 +417,18 @@ class ControlScreen(Screen):
         button_home.bind(on_release=self.open_main_screen)
         sensor1_button.bind(on_press=self.show_popup_sensor1)
         sensor2_button.bind(on_press=self.show_popup_sensor1)
+        button_add.bind(on_press=self.show_popup_notimplemented)
 
         sensor1_button.background_normal = "images/gui/large_text_entry.png"
         sensor1_button.background_down = "images/gui/large_text_entry_pressed.png"
         sensor2_button.background_normal = "images/gui/large_text_entry.png"
         sensor2_button.background_down = "images/gui/large_text_entry_pressed.png"
         sensor1_status_button.background_normal = "images/gui/small_text_entry.png"
-        sensor1_status_button.background_down = "images/gui/small_text_entry_pressed.png"
+        sensor1_status_button.background_down = "images/gui/small_text_entry.png"
         sensor2_status_button.background_normal = "images/gui/small_text_entry.png"
-        sensor2_status_button.background_down = "images/gui/small_text_entry_pressed.png"
-        button_add.background_normal = "images/gui/small_text_entry.png"
-        button_add.background_down = "images/gui/small_text_entry_pressed.png"
+        sensor2_status_button.background_down = "images/gui/small_text_entry.png"
+        button_add.background_normal = "images/gui/large_text_entry.png"
+        button_add.background_down = "images/gui/large_text_entry_pressed.png"
         button_home.background_normal = "images/symbols/heim_tiny.png"
         button_home.background_down = "images/symbols/heim_tiny_pressed.png"
 
@@ -417,6 +439,175 @@ class ControlScreen(Screen):
     def show_popup_sensor1(self, instance):
         content = BoxLayout(orientation="vertical")
         label = Label(text="This is Sensor n \n UID:ui2nf8024fahf890", font_size=24)
+        content.add_widget(label)
+
+        popup = Popup(
+            title="Information",
+            content=content,
+            size_hint=(None, None),
+            size=(400, 400),
+        )
+        popup.open()
+    
+    def show_popup_notimplemented(self, instance):
+        content = BoxLayout(orientation="vertical")
+        label = Label(text="This Feature is not yet implemented", font_size=24)
+        content.add_widget(label)
+
+        popup = Popup(
+            title="Information",
+            content=content,
+            size_hint=(None, None),
+            size=(400, 400),
+        )
+        popup.open()
+
+
+class ProfileScreen(Screen):
+    def __init__(self, **kwargs):
+        super(ProfileScreen, self).__init__(**kwargs)
+
+        self.add_widget(
+            Image(
+                source="Images/gui/backgroud_base.png",
+                allow_stretch=True,
+                keep_ratio=False,
+            )
+        )
+        self.create_labels()
+        self.create_buttons()
+        self.create_input_fields()
+
+    def create_labels(self):
+        profile_label = Label(
+            text="Profil",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.05, "y": 0.9},
+            font_size=36,
+            color=(0, 0, 0, 1),
+        )
+        name_label = Label(
+            text="Name:",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.05, "y": 0.75},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+        email_label = Label(
+            text="Email:",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.05, "y": 0.625},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+        username_label = Label(
+            text="Username:",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.08, "y": 0.50},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+        password_label = Label(
+            text="Password:",
+            size_hint=(None, None),
+            size=(50, 15),
+            pos_hint={"x": 0.08, "y": 0.375},
+            font_size=32,
+            color=(0, 0, 0, 1),
+        )
+
+        self.add_widget(profile_label)
+        self.add_widget(name_label)
+        self.add_widget(email_label)
+        self.add_widget(username_label)
+        self.add_widget(password_label)
+
+    def create_buttons(self):
+        button_home = Button(
+            text="",
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint={"x": 0.93, "y": 0.88},
+        )
+
+        button_save = Button(
+            text="Speichern",
+            size_hint=(None, None),
+            size=(150, 50),
+            pos_hint={"x": 0.3, "y": 0.2},
+            font_size=24,
+            color=(255, 255, 255, 1),
+        )
+
+        self.add_widget(button_home)
+        self.add_widget(button_save)
+
+        button_home.bind(on_release=self.open_main_screen)
+        button_save.bind(on_release=self.show_popup_save)
+
+        button_home.background_normal = "images/symbols/heim_tiny.png"
+        button_home.background_down = "images/symbols/heim_tiny_pressed.png"
+        button_save.background_normal = "images/gui/small_text_entry_green.png"
+        button_save.background_down = "images/gui/small_text_entry_green_pressed.png"
+
+    def open_main_screen(self, instance):
+        app = App.get_running_app()
+        app.root.current = "main"
+
+    def create_input_fields(self):
+        name_input = TextInput(
+            text="Enter Name",
+            size_hint=(None, None),
+            size=(500, 50),
+            pos_hint={"x": 0.3, "y": 0.725},
+            font_size=30,
+            background_normal="images/gui/large_text_entry.png",
+            background_active="images/gui/large_text_entry_pressed.png",
+        )
+
+        email_input = TextInput(
+            text="Enter Email",
+            size_hint=(None, None),
+            size=(500, 50),
+            pos_hint={"x": 0.3, "y": 0.6},
+            font_size=30,
+            background_normal="images/gui/large_text_entry.png",
+            background_active="images/gui/large_text_entry_pressed.png",
+        )
+
+        username_input = TextInput(
+            text="Enter Username",
+            size_hint=(None, None),
+            size=(500, 50),
+            pos_hint={"x": 0.3, "y": 0.475},
+            font_size=30,
+            background_normal="images/gui/large_text_entry.png",
+            background_active="images/gui/large_text_entry_pressed.png",
+        )
+
+        password_input = TextInput(
+            text="",
+            password=True,
+            size_hint=(None, None),
+            size=(500, 50),
+            pos_hint={"x": 0.3, "y": 0.350},
+            font_size=30,
+            background_normal="images/gui/large_text_entry.png",
+            background_active="images/gui/large_text_entry_pressed.png",
+        )
+
+        self.add_widget(name_input)
+        self.add_widget(email_input)
+        self.add_widget(username_input)
+        self.add_widget(password_input)
+
+    def show_popup_save(self, instance):
+        content = BoxLayout(orientation="vertical")
+        label = Label(text="Ihre Eingaben wurden gespeichert", font_size=24)
         content.add_widget(label)
 
         popup = Popup(
@@ -465,6 +656,9 @@ class MyApp(App):
 
         control_screen = ControlScreen(name="control")
         screen_manager.add_widget(control_screen)
+
+        profile_screen = ProfileScreen(name="profile")
+        screen_manager.add_widget(profile_screen)
 
         return screen_manager
 
