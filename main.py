@@ -416,7 +416,7 @@ class ControlScreen(Screen):
 
         button_home.bind(on_release=self.open_main_screen)
         sensor1_button.bind(on_press=self.show_popup_sensor1)
-        sensor2_button.bind(on_press=self.show_popup_sensor1)
+        sensor2_button.bind(on_press=self.show_popup_sensor2)
         button_add.bind(on_press=self.show_popup_notimplemented)
 
         sensor1_button.background_normal = "images/gui/large_text_entry.png"
@@ -438,7 +438,7 @@ class ControlScreen(Screen):
 
     def show_popup_sensor1(self, instance):
         content = BoxLayout(orientation="vertical")
-        label = Label(text="This is Sensor n \n UID:ui2nf8024fahf890", font_size=24)
+        label = Label(text="Window/Door Sensor \n UID:001-002471", font_size=24)
         content.add_widget(label)
 
         popup = Popup(
@@ -448,7 +448,20 @@ class ControlScreen(Screen):
             size=(400, 400),
         )
         popup.open()
-    
+
+    def show_popup_sensor2(self, instance):
+        content = BoxLayout(orientation="vertical")
+        label = Label(text="Generic Sensor \n UID:xxx-xxxxxx", font_size=24)
+        content.add_widget(label)
+
+        popup = Popup(
+            title="Information",
+            content=content,
+            size_hint=(None, None),
+            size=(400, 400),
+        )
+        popup.open()
+
     def show_popup_notimplemented(self, instance):
         content = BoxLayout(orientation="vertical")
         label = Label(text="This Feature is not yet implemented", font_size=24)
